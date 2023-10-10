@@ -41,12 +41,13 @@ YouTube API v3を用いて、キーワードやチャンネル名を指定して
             'save_path': './'
         }
     )
-    # 最終的なデータのみが保存される
-    final_df = collector.run()
+   # 最終的なデータのみが保存される
+   final_df = collector.run()
     ```
  4. 動画データを元に、コメント、動画の統計を収集します。
     ```
     # video_id_listを取得
+    path = './' # save_pathもしくはファイル名を指定
     all_df = collector.read_all_df(path)
     video_id_list = collector.pickup_video_id(all_df)
     ```
@@ -79,9 +80,9 @@ YouTube API v3を用いて、キーワードやチャンネル名を指定して
                 'save_path': './'
             }
     )
-   # 最終的なデータのみが保存される
-   final_df = collector_stats.run()
-   ```
+    # 最終的なデータのみが保存される
+    final_df = collector_stats.run()
+    ```
 
    動作しない点・不明点等がありましたら、ご連絡ください。(https://twitter.com/kanure24)
    また、Fork・Star等くださると嬉しいです。
