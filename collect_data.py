@@ -249,17 +249,21 @@ class YouTubeDataCollector:
 
     # 収集後に実行
     def read_all_df(self, path, show_names=False):
-        """ フォルダ内の全てのcsvを読み込み、結合する"""
-        names = sorted(os.listdir(path))
-        print('\n'.join(names))
-        all_df = pd.concat([pd.read_csv(path / name) for name in names], axis=0)
+        """ 指定したパスの(全ての)csvを読み込み、結合する"""
+        if str(path).split(".")[-1] == "csv":
+            print(path)
+            all_df = pd.read_csv(path)
+        else:
+            names = sorted(os.listdir(path))
+            print('\n'.join(names))
+            all_df = pd.concat([pd.read_csv(path / name) for name in names], axis=0)
         # publisht_timeがあるかどうか
         if 'publishTime' in all_df.columns:
             all_df = all_df.drop_duplicates(subset='video_id').sort_values('publishTime')
         all_df = all_df.reset_index(drop=True)
         print("all shape:", all_df.shape)
         return all_df
-    
+
     def pickup_video_id(self, df):
         """video_idのみのデータを作成"""
         video_id_list = df['video_id'].unique().tolist()
