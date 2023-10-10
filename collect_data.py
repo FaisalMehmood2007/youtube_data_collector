@@ -247,7 +247,8 @@ class YouTubeDataCollector:
         # 実行
         return self.collector.run()
 
-    def read_all_df(path, show_names=False):
+    # 収集後に実行
+    def read_all_df(self, path, show_names=False):
         """ フォルダ内の全てのcsvを読み込み、結合する"""
         names = sorted(os.listdir(path))
         print('\n'.join(names))
@@ -259,7 +260,7 @@ class YouTubeDataCollector:
         print("all shape:", all_df.shape)
         return all_df
     
-    def pickup_video_id(df):
+    def pickup_video_id(self, df):
         """video_idのみのデータを作成"""
         video_id_list = df['video_id'].unique().tolist()
         print('video_id:', len(video_id_list))
