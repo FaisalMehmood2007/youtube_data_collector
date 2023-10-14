@@ -82,20 +82,19 @@ class CollectMovieData:
         data = [[item['id']['videoId']] + [item['snippet'][x] for x in cols] for item in responses['items']]
         return pd.DataFrame(data, columns=['video_id'] + cols)
 
-    def get_time(self, start_year, start_month):
+    def get_time(self, current_date):
         """ 検索の開始時間と終了時間を取得 """
-        start_date = datetime(start_year, start_month, 1)
         deltas = {
             'day': relativedelta(days=1),
             'month': relativedelta(months=1),
             'year': relativedelta(years=1)
         }
-        end_date = start_date + deltas[self.delta]
-        return start_date.isoformat() + 'Z', end_date.isoformat() + 'Z'
+        end_date = current_date + deltas[self.delta]
+        return current_date.isoformat() + 'Z', end_date.isoformat() + 'Z'
 
     def get_all_df_multi(self, current_date):
         """ 複数期間のデータを結合 """
-        start_time, end_time = self.get_time(current_date.year, current_date.month)
+        start_time, end_time = self.get_time(current_date)
         df_list = []
         next_token = None
         while True:
@@ -104,7 +103,7 @@ class CollectMovieData:
             next_token = response.get('nextPageToken')
             if not next_token:
                 break
-        all_df = pd.concat(df_list, axis=0).drop_duplicates(subset='video_id').reset_index(drop=True)
+        all_df = pd.concat(df_list, axis=0).drop_duplicates(subset='video_id').sort_values('publishTime').reset_index(drop=True)
         def to_str(x):
             return str(x).zfill(2)
         if self.delta == 'year':
