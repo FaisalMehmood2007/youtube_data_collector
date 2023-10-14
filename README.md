@@ -1,3 +1,111 @@
+# `youtube_data_collector`: YouTube Data Harvesting Toolkit
+
+Utilizes [YouTube API v3](https://developers.google.com/youtube/v3/docs?hl=ja) to perform specific scraping tasks focused on YouTube content.
+
+> **Note**: This toolkit doesn't support metrics collection for your own videos.
+
+## Features
+
+- **Video Metadata Extraction**
+  - Keyword-based scraping
+  - Channel-specific scraping
+- **Detail Retrieval via `video_id`**
+  - Comment scraping
+  - Video statistics (likes, views, etc.)
+
+## Pre-requisites
+1. Acquire a YouTube API v3 key via Google Cloud Platform. [This guide will help](https://qiita.com/shinkai_/items/10a400c25de270cb02e4).
+2. Import the library.
+   ```bash
+   !git clone https://github.com/momijiro/youtube_data_collector
+   from youtube_data_collector.collect_data import YouTubeDataCollector
+   ```
+
+## Usage
+
+### 1. Collecting Video Metadata
+
+(a) Keyword-Based  
+```python
+YOUTUBE_API_KEY = 'YOUR_API_KEY'  # Replace with your own API key.
+collector = YouTubeDataCollector(
+   api_key=YOUTUBE_API_KEY,
+   mode='movie',
+   args={
+         'query': '<YOUR_KEYWORD>',
+         'start': 'YYYY',
+         'end': 'YYYY',
+         'save': True,
+         'save_path': './'
+   }
+)
+final_df = collector.run()  # Only final dataframe is saved.
+```
+
+(b) Channel-Based  
+```python
+collector = YouTubeDataCollector(
+   api_key=YOUTUBE_API_KEY,
+   mode='movie',
+   args={
+         'channel_id': '<CHANNEL_ID>',
+         'start': 'YYYY',
+         'end': 'YYYY',
+         'save': True,
+         'save_path': './'
+   }
+)
+final_df = collector.run()  # Only final dataframe is saved.
+```
+
+### 2. Detail Retrieval via `video_id`
+
+```python
+# Fetch video_id_list
+path = './'
+all_df = collector.read_all_df(path)
+video_id_list = collector.pickup_video_id(all_df)
+```
+
+(a) Comment Scraping  
+```python
+collector_comment = YouTubeDataCollector(
+   api_key=YOUTUBE_API_KEY,
+   mode='comment',
+   args={
+         'video_id_list': video_id_list,
+         'save_threshold': 500,
+         'save': False,
+         'save_path': '<YOUR_PATH>',
+         'title': 'mid_comment',
+         'save_number': 0
+   }
+)
+final_df = collector_comment.run()  # Only final dataframe is saved.
+```
+
+(b) Stats Collection  
+```python
+collector_stats = YouTubeDataCollector(
+   api_key=YOUTUBE_API_KEY,
+   mode='stats',
+   args={
+         'video_id_list': video_id_list,
+         'save': True,
+         'save_path': './'
+   }
+)
+final_df = collector_stats.run()  # Only final dataframe is saved.
+```
+
+---
+
+Issues? Please contact.  
+Feel free to give a Star if this helped!  
+Contact: [X(Twitter)](https://twitter.com/kanure24) 
+
+---
+
 # youtube_data_collector
 2023.10.14 現在説明を編集中ですが、コード自体は動作する状態です。(ただし今後アップデートする可能性あり)
 
