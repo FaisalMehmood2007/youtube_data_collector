@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from tqdm import tqdm
 
+
 class CollectMovieData:
     """
     Youtube Data API v3を用いて、検索クエリにマッチする動画の情報を取得する
