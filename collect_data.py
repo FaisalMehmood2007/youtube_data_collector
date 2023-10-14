@@ -93,6 +93,7 @@ class CollectMovieData:
         end_date = start_date + deltas[self.delta]
         return start_date.isoformat() + 'Z', end_date.isoformat() + 'Z'
 
+
     def get_all_df_multi(self, current_date):
         """ 複数期間のデータを結合 """
         start_time, end_time = self.get_time(current_date.year, current_date.month)
@@ -106,12 +107,14 @@ class CollectMovieData:
                 break
         all_df = pd.concat(df_list, axis=0).drop_duplicates(subset='video_id').reset_index(drop=True)
 
+        def to_str(x):
+            return str(x).zfill(2)
         if self.delta == 'year':
             text = f"{current_date.year}"
         elif self.delta == 'month':
-            text = f"{current_date.year}_{current_date.month}"
+            text = f"{current_date.year}_{to_str(current_date.month)}"
         elif self.delta == 'day':
-            text = f"{current_date.year}_{current_date.month}_{current_date.day}"
+            text = f"{current_date.year}_{to_str(current_date.month)}_{to_str(current_date.day)}"
         title = f"{self.query}_{text}.csv"
         print(f"{title}, shape:{all_df.shape}, response_count:{len(df_list)}")
         if self.save:
