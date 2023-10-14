@@ -106,7 +106,7 @@ Contact: [X(Twitter)](https://twitter.com/kanure24)
 ---
 ---
 
-## `youtube_data_collector`: YouTubeデータの収集コード
+# `youtube_data_collector`: YouTubeデータの収集コード
 
 [YouTube API v3](https://developers.google.com/youtube/v3/docs?hl=ja)を活用し、YouTubeデータの収集を行うコードになります。  
 APIの機能はかなり広いため、このコードでは以下の機能に限定しています。
