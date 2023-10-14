@@ -99,4 +99,6 @@ YouTube API v3には様々な機能がありますが、本コードの対応範
 もし良かったらStar等くださると幸いです！  
 連絡先: [X(Twitter)](https://twitter.com/kanure24) 
 
+--- 
+
 
