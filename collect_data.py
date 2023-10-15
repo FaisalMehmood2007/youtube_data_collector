@@ -10,8 +10,14 @@ class CollectMovieData:
     """
     Youtube Data API v3を用いて、検索クエリにマッチする動画の情報を取得する
     """
-
-    def __init__(self, api_key, start, end, query=None, channel_id=None, save=False, save_path='output/tmp/'):
+    def __init__(self,
+                api_key,
+                start,
+                end,
+                query=None,
+                channel_id=None,
+                save=False,
+                save_path='./'):
         self.api_key = api_key
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
         self.query = query
@@ -132,10 +138,10 @@ class CollectCommentData:
     def __init__(self,
                 api_key,
                 video_id_list,
-                save_threshold=300,
-                save=False,
-                save_path='output/tmp/',
                 title='comment',
+                save=False,
+                save_path='./',
+                save_threshold=300,
                 save_number=1):
         """_summary_
 
@@ -151,10 +157,10 @@ class CollectCommentData:
         self.api_key = api_key
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
         self.video_id_list = video_id_list
-        self.save_threshold = save_threshold
+        self.title = title
         self.save = save
         self.save_path = save_path
-        self.title = title
+        self.save_threshold = save_threshold
         self.save_number = save_number
         self.rename_dict = {
             "textDisplay":"comment",
@@ -241,10 +247,17 @@ class CollectMovieStatsData(CollectMovieData):
     """
     Youtube Data API v3を用いて、検索クエリにマッチする動画の統計情報を取得する
     """
-    def __init__(self, api_key,video_id_list, save=False, save_path='output/tmp/'):
+    def __init__(self,
+                api_key,
+                video_id_list,
+                title='movie_stats',
+                save=False,
+                save_path='./'
+                ):
         self.api_key = api_key
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
         self.video_id_list = video_id_list
+        self.title = title
         self.save = save
         self.save_path = save_path
 
@@ -296,7 +309,7 @@ class CollectMovieStatsData(CollectMovieData):
         #     print(e)
             # return None
         if self.save:
-            df.to_csv(f'{self.save_path}/movie_stats.csv', index=False)
+            df.to_csv(f'{self.save_path}/{self.title}.csv', index=False)
         return df
 
 class YouTubeDataCollector:
