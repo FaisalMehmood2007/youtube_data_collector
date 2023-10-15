@@ -4,7 +4,7 @@ import os
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from tqdm import tqdm
-
+from pathlib import Path
 
 class CollectMovieData:
     """
@@ -17,7 +17,7 @@ class CollectMovieData:
         self.query = query
         self.channel_id = channel_id
         self.save = save
-        self.save_path = save_path
+        self.save_path = Path(save_path)
         self.date_list = self._get_date_list(start, end)  # deltaとdate_listを同時に返すように変更
 
     def _get_date_list(self, start, end):
@@ -117,7 +117,7 @@ class CollectMovieData:
         print(f"{title}, shape:{all_df.shape}, response_count:{len(df_list)}")
         if self.save:
             all_df.to_csv(f'{self.save_path}/{title}', index=False)
-            print(title, all_df.shape)
+            print(f'Saved at: {self.save_path}/{title}, {all_df.shape}')
         return all_df
 
     def run(self):
@@ -333,7 +333,8 @@ class YouTubeDataCollector:
             print(path)
             all_df = pd.read_csv(path)
         else:
-            names = sorted(os.listdir(path))
+            # csvファイルのみ抽出
+            names = sorted([name for name in os.listdir(path) if str(name).split(".")[-1] == "csv"])
             print('\n'.join(names))
             all_df = pd.concat([pd.read_csv(path / name) for name in names], axis=0)
         # publisht_timeがあるかどうか
