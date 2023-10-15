@@ -336,7 +336,7 @@ class YouTubeDataCollector:
             # csvファイルのみ抽出
             names = sorted([name for name in os.listdir(path) if str(name).split(".")[-1] == "csv"])
             print('\n'.join(names))
-            all_df = pd.concat([pd.read_csv(path / name) for name in names], axis=0)
+            all_df = pd.concat([pd.read_csv(Path(path) / name) for name in names], axis=0)
         # publisht_timeがあるかどうか
         if 'publishTime' in all_df.columns:
             all_df = all_df.drop_duplicates(subset='video_id').sort_values('publishTime')
