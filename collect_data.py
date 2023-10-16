@@ -300,6 +300,7 @@ class CollectMovieStatsData(CollectMovieData):
 
         # リストをpd.DataFrameに変換
         df = pd.DataFrame(details_list)
+        df.rename(columns={"videoId": "video_id"}, inplace=True)
         return df
 
     def run(self):
