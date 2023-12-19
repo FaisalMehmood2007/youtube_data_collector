@@ -253,7 +253,20 @@ class CollectCommentData:
 
 class CollectMovieStatsData(CollectMovieData):
     """
-    Youtube Data API v3を用いて、検索クエリにマッチする動画の統計情報を取得する
+    Youtube Data API v3を用いて、検索クエリにマッチする動画の視聴回数、いいね数、低評価数、コメント数を取得する
+
+    Args:
+
+        api_key (str): 自分のAPIキーを入力
+        video_id_list (list): 動画IDのリスト
+        save (bool): データを保存するかどうか
+        save_path (str): 保存先のパス
+        title (str): 保存するファイル名
+
+    Returns:
+
+        df (pd.DataFrame): 取得した動画の情報をまとめたDataFrame
+
     """
     def __init__(self,
                 api_key,
@@ -372,6 +385,17 @@ class YouTubeDataCollector:
         print('video_id:', len(video_id_list))
         return video_id_list
 
+    def update_list(self, list_, las):
+        """リストからx以前を削除"""
+        print('before:', len(list_))
+        while True:
+            if x == list_[0]:
+                list_.pop(0)
+                break
+            else:
+                list_.pop(0)
+        print('after:', len(list_))
+        return list_
 if __name__ == '__main__':
     YOUTUBE_API_KEY = 'AAAAAAAAAAAAAA'
 
