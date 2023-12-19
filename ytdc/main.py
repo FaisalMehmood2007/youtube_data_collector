@@ -9,15 +9,23 @@ from pathlib import Path
 class CollectMovieData:
     """
     Youtube Data API v3を用いて、検索クエリにマッチする動画の情報を取得する
+
+    Args:
+
+        api_key (str): 自分のAPIキーを入力
+        start (str): 取得する動画の開始日時 (e.g., '2020-01-01')
+        end (str): 取得する動画の終了日時 (e.g., '2020-12-31')
+        query (str): 検索クエリ (e.g., 'キーワード OR keyword')
+        channel_id (str): チャンネルID (e.g., 'AbCdEfGhIjKlMnOpQrStUvWxYz')
+        save (bool): データを保存するかどうか
+        save_path (str): 保存先のパス
+
+    Returns:
+
+        df (pd.DataFrame): 取得した動画の情報をまとめたDataFrame
+
     """
-    def __init__(self,
-                api_key,
-                start,
-                end,
-                query=None,
-                channel_id=None,
-                save=False,
-                save_path='./'):
+    def __init__(self, api_key, start, end, query=None, channel_id=None, save=False, save_path='./'):
         self.api_key = api_key
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
         self.query = query
