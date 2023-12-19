@@ -1,101 +1,37 @@
-# `youtube_data_collector`: Code for Collecting YouTube Data
+# `youtube_data_collector`: YouTube Data Collection Code
 
-This code utilizes the [YouTube API v3](https://developers.google.com/youtube/v3/docs?hl=ja) to collect YouTube data.  
-Due to the broad functionalities of the API, this code is limited to the following features.
+This code utilizes the [YouTube API v3](https://developers.google.com/youtube/v3/docs) to collect YouTube data. While the API offers a wide range of functionalities, this code focuses on specific features.
 
-## Key Features
+## Main Features
 
-1. **Extraction of Video Metadata**  
-  (a) Collect videos based on specified keywords  
-  (b) Collect videos from specified channel names
-2. **Retrieving Detailed Information Using `video_id`**  
-  (a) Collect comments  
-  (b) Collect statistics (like counts, views, etc.)
+1. **Extracting Video Metadata**
+   - Collecting videos based on specified keywords
+   - Collecting videos based on specified channel names
+2. **Obtaining Detailed Information Using `video_id`**
+   - Collecting comments
+   - Collecting statistical data (e.g., likes, views)
 
-## Before You Begin
-1. Obtain a YouTube API v3 key from Google Cloud Platform. [(This article may be helpful for you.)](https://qiita.com/shinkai_/items/10a400c25de270cb02e4)
-2. Import this library.
-   ```bash
+## Quick Start
+1. Obtain your YouTube API key from the [Google Cloud Console](https://console.cloud.google.com/).
+
+2. Execute the following code to collect data.
+   ```python
+   # Importing the library
    !git clone https://github.com/momijiro/youtube_data_collector
-   from youtube_data_collector.collect_data import YouTubeDataCollector
-   ```
+   from ytdc import YouTubeDataCollector
 
-## How to Run
-
-### 1. Collection of Video Metadata
-
-  (a) Specify Keywords
-  ```python
-  YOUTUBE_API_KEY = 'YOUR_API_KEY'  # Replace with your own API key.
-  collector = YouTubeDataCollector(
-     api_key=YOUTUBE_API_KEY,
-     mode='movie',
-     args={
-           'query': '<keyword>',
-           'start': 'YYYY',
-           'end': 'YYYY',
-           'save': True,
-           'save_path': './'
-     }
-  )
-  final_df = collector.run()  # Only the final dataframe will be saved.
-  ```
-
-  (b) Specify Channel Names
-  ```python
-  collector = YouTubeDataCollector(
-     api_key=YOUTUBE_API_KEY,
-     mode='movie',
-     args={
-           'channel_id': '<Channel ID>',
-           'start': 'YYYY',
-           'end': 'YYYY',
-           'save': True,
-           'save_path': './'
-     }
-  )
-  final_df = collector.run()  # Only the final dataframe will be saved.
-  ```
-
-### 2. Retrieving Detailed Information Using `video_id`
-
-  ```python
-  # Retrieve video_id_list
-  path = './'
-  all_df = collector.read_all_df(path)
-  video_id_list = collector.pickup_video_id(all_df)
-  ```
-
-  (a) Collecting Comments
-  ```python
-  collector_comment = YouTubeDataCollector(
-     api_key=YOUTUBE_API_KEY,
-     mode='comment',
-     args={
-           'video_id_list': video_id_list,
-           'save_threshold': 500,
-           'save': False,
-           'save_path': '<Save Path>',
-           'title': 'mid_comment',
-           'save_number': 0
-     }
-  )
-  final_df = collector_comment.run()  # Only the final dataframe will be saved.
-  ```
-
-  (b) Collecting Statistical Information
-  ```python
-  collector_stats = YouTubeDataCollector(
-     api_key=YOUTUBE_API_KEY,
-     mode='stats',
-     args={
-           'video_id_list': video_id_list,
-           'save': True,
-           'save_path': './'
-     }
-  )
-  final_df = collector_stats.run()  # Only the final dataframe will be saved.
-  ```
+   YOUTUBE_API_KEY = 'YOUR_API_KEY'  # Replace with your API key
+   collector = YouTubeDataCollector(
+      api_key=YOUTUBE_API_KEY,
+      mode='movie',
+      args={
+            'query': 'Christmas',
+            'start': '2010-12',
+            'end': '2010-12',
+      }
+   )
+   final_df = collector.run()  # Save the final dataframe
+   final_df
 
 ---
 
@@ -104,11 +40,10 @@ If you find this code helpful, we'd appreciate a Star!
 Contact: [X(Twitter)](https://twitter.com/kanure24)
 
 ---
----
 
 # `youtube_data_collector`: YouTubeデータの収集コード
 
-[YouTube API v3](https://developers.google.com/youtube/v3/docs?hl=ja)を活用し、YouTubeデータの収集を行うコードになります。  
+こちらは、[YouTube API v3](https://developers.google.com/youtube/v3/docs?hl=ja)を活用し、YouTubeデータの収集を行うコードになります。  
 APIの機能はかなり広いため、このコードでは以下の機能に限定しています。
 
 ## 主な機能
@@ -120,90 +55,36 @@ APIの機能はかなり広いため、このコードでは以下の機能に�
   (a) コメントの収集  
   (b) 統計の収集（いいね数、視聴数など）
 
-## 収集の前に
-1. Google Cloud Platform で YouTube API v3 のキーを取得します。[(こちらの記事が参考になります。)](https://qiita.com/shinkai_/items/10a400c25de270cb02e4)
-2. このライブラリをインポートします。
-   ```bash
-   !git clone https://github.com/momijiro/youtube_data_collector
-   from youtube_data_collector.collect_data import YouTubeDataCollector
-   ```
+## Quick Start
+1. 自分の YouTube API キーを取得してください。API キーは [Google Cloud Console](https://console.cloud.google.com/) から取得できます。
 
-## 実行
+2. 下記のコードを実行することで、簡単にデータが収集できます。
+```python
+# ライブラリをインポート
+!git clone https://github.com/momijiro/youtube_data_collector
+from ytdc import YouTubeDataCollector
 
-### 1. 動画メタデータの収集
+YOUTUBE_API_KEY = 'YOUR_API_KEY'  # 自分の API キーに置き換えてください
+collector = YouTubeDataCollector(
+   api_key=YOUTUBE_API_KEY,
+   mode='movie',
+   args={
+         'query': 'クリスマス',
+         'start': '2010-12',
+         'end': '2010-12',
+   }
+)
+final_df = collector.run()  # 最終的なデータフレームのみ保存
+final_df
+```
 
-  (a) キーワードを指定
-  ```python
-  YOUTUBE_API_KEY = 'YOUR_API_KEY'  # 自分の API キーに置き換えてください。
-  collector = YouTubeDataCollector(
-     api_key=YOUTUBE_API_KEY,
-     mode='movie',
-     args={
-           'query': '<キーワード>',
-           'start': 'YYYY',
-           'end': 'YYYY',
-           'save': True,
-           'save_path': './'
-     }
-  )
-  final_df = collector.run()  # 最終的なデータフレームのみが保存されます。
-  ```
+## より詳しい使い方について
+詳細な使用方法については、以下のドキュメントを参照してください。
 
-  (b) チャンネル名を指定 
-  ```python
-  collector = YouTubeDataCollector(
-     api_key=YOUTUBE_API_KEY,
-     mode='movie',
-     args={
-           'channel_id': '<チャンネルID>',
-           'start': 'YYYY',
-           'end': 'YYYY',
-           'save': True,
-           'save_path': './'
-     }
-  )
-  final_df = collector.run()  # 最終的なデータフレームのみが保存されます。
-  ```
-
-### 2. `video_id` を用いた詳細情報の取得
-
-  ```python
-  # video_id_list を取得
-  path = './'
-  all_df = collector.read_all_df(path)
-  video_id_list = collector.pickup_video_id(all_df)
-  ```
-
-  (a) コメントの収集
-  ```python
-  collector_comment = YouTubeDataCollector(
-     api_key=YOUTUBE_API_KEY,
-     mode='comment',
-     args={
-           'video_id_list': video_id_list,
-           'save_threshold': 500,
-           'save': False,
-           'save_path': '<保存先パス>',
-           'title': 'mid_comment',
-           'save_number': 0
-     }
-  )
-  final_df = collector_comment.run()  # 最終的なデータフレームのみが保存されます。
-  ```
-
-  (b) 統計情報の収集  
-  ```python
-  collector_stats = YouTubeDataCollector(
-     api_key=YOUTUBE_API_KEY,
-     mode='stats',
-     args={
-           'video_id_list': video_id_list,
-           'save': True,
-           'save_path': './'
-     }
-  )
-  final_df = collector_stats.run()  # 最終的なデータフレームのみが保存されます。
-  ```
+- quick start
+- 主な機能について
+- 詳しい使い方
+- 実用に向けて
 
 ---
 
